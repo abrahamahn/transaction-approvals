@@ -31,11 +31,15 @@ export function App() {
 
   const loadTransactionsByEmployee = useCallback(
     async (employeeId: string) => {
-      paginatedTransactionsUtils.invalidateData()
-      await transactionsByEmployeeUtils.fetchById(employeeId)
+      if (employeeId === EMPTY_EMPLOYEE.id) {
+        await loadAllTransactions();
+      } else {
+        paginatedTransactionsUtils.invalidateData();
+        await transactionsByEmployeeUtils.fetchById(employeeId);
+      }
     },
-    [paginatedTransactionsUtils, transactionsByEmployeeUtils]
-  )
+    [paginatedTransactionsUtils, transactionsByEmployeeUtils, loadAllTransactions]
+  );
 
   useEffect(() => {
     if (employees === null && !employeeUtils.loading) {
