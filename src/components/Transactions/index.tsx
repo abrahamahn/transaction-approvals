@@ -1,7 +1,7 @@
 import { useCallback } from "react"
 import { useCustomFetch } from "src/hooks/useCustomFetch"
 import { SetTransactionApprovalParams } from "src/utils/types"
-import { TransactionPane } from "./TransactionPane"
+import { TransactionPanel } from "./TransactionPanel"
 import { SetTransactionApprovalFunction, TransactionsComponent } from "./types"
 
 export const Transactions: TransactionsComponent = ({ transactions }) => {
@@ -24,7 +24,7 @@ export const Transactions: TransactionsComponent = ({ transactions }) => {
   return (
     <div data-testid="transaction-container">
       {transactions.map((transaction) => (
-        <TransactionPane
+        <TransactionPanel
           key={transaction.id}
           transaction={transaction}
           loading={loading}
