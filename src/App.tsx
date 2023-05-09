@@ -14,20 +14,24 @@ export function App() {
   const { data: transactionsByEmployee, ...transactionsByEmployeeUtils } = useTransactionsByEmployee();
   const [isLoading, setIsLoading] = useState(false);
   const [selectedEmployee, setSelectedEmployee] = useState<Employee | null>(null);
-
+  const [isEmployeesLoading, setIsEmployeesLoading] = useState(false);
+  const [isTransactionsLoading, setIsTransactionsLoading] = useState(false);
+  
   const transactions = useMemo(
     () => paginatedTransactions?.data ?? transactionsByEmployee ?? null,
     [paginatedTransactions, transactionsByEmployee]
   );
 
   const loadAllTransactions = useCallback(async () => {
-    setIsLoading(true);
+    setIsEmployeesLoading(true);
+    setIsTransactionsLoading(true);
     transactionsByEmployeeUtils.invalidateData();
 
     await employeeUtils.fetchAll();
-    await paginatedTransactionsUtils.fetchAll();
+    setIsEmployeesLoading(false);
 
-    setIsLoading(false);
+    await paginatedTransactionsUtils.fetchAll();
+    setIsTransactionsLoading(false);
   }, [employeeUtils, paginatedTransactionsUtils, transactionsByEmployeeUtils]);
 
   const loadTransactionsByEmployee = useCallback(
@@ -41,11 +45,15 @@ export function App() {
       } else {
         setSelectedEmployee(employees.find((employee) => employee.id === employeeId) || null);
         paginatedTransactionsUtils.invalidateData();
+
+        setIsTransactionsLoading(true);
         await transactionsByEmployeeUtils.fetchById(employeeId);
+        setIsTransactionsLoading(false);
       }
     },
     [paginatedTransactionsUtils, transactionsByEmployeeUtils, loadAllTransactions, employees]
   );
+
 
 
   useEffect(() => {
@@ -62,7 +70,7 @@ export function App() {
         <hr className="RampBreak--l" />
 
         <InputSelect<Employee>
-          isLoading={isLoading}
+          isLoading={isEmployeesLoading}
           defaultValue={EMPTY_EMPLOYEE}
           items={employees === null ? [] : [EMPTY_EMPLOYEE, ...employees]}
           label="Filter by employee"
