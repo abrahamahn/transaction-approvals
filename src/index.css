@@ -1,21 +1,22 @@
 :root {
   --color-empty-shade: #fff;
-  --color-light-shade: #eaeaea;
-  --color-lighter-shade: #edebe6;
-  --color-dark-shade: #6f6f66;
-  --color-darker-shade: #ecf3d3;
-  --color-text: #2d2d26;
-  --color-accent: #f4ff56;
-  --color-constructive: #109d46;
+  --color-light-shade: #fcfcf7;
+  --color-lighter-shade: #c4c4c4;
+  --color-dark-shade: #606058;
+  --color-darker-shade: #f4f3ef;
+  --color-text: #1c1c1c;
+  --color-accent: #404040;
+  --color-constructive: #286CB0;
   --color-destructive: #d94b03;
+  --font-primary: 'Helvetica', sans-serif;
 }
 
 html,
 body {
-  padding: 0;
+  padding: 0 15px;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans,
-    Droid Sans, Helvetica Neue, sans-serif;
+  font-family: var(--font-primary);
+  background-color: var(--color-darker-shade);
 }
 
 a {
@@ -24,7 +25,7 @@ a {
 }
 
 * {
-  padding: 0;
+  padding: 0px;
   margin: 0;
   box-sizing: border-box;
 }
@@ -35,13 +36,30 @@ a {
   margin: 0;
 }
 
+.RampDiv {
+  margin: 10px;
+  padding: 0px 30px 20px 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color:rgb(69, 69, 69);
+  border-radius: 10px;
+}
+
+.RampText {
+  color: var(--color-darker-shade);
+  font-size: 16px;
+  line-height: 1.3;
+}
 .RampText--s {
   font-size: 0.75rem;
+  color: grey;
 }
 
 .RampText--hushed {
+  color: var(--color-text);
   color: var(--color-dark-shade);
-
 }
 
 [class^="RampTextHeading--"] {
@@ -49,8 +67,15 @@ a {
   line-height: 1;
 }
 
+.RampTextHeading--m {
+  font-size: 1.5rem;
+  text-align: left;
+}
+
 .RampTextHeading--l {
-  font-size: 2.5rem;
+  font-size: 2rem;
+  text-align: center;
+  margin-bottom: 20px;
 }
 
 .RampGrid {
@@ -76,8 +101,6 @@ hr.RampBreak--l {
   height: 1px;
   width: 100%;
   margin: 1.75rem 0;
-  border: none;
-  background-color: var(--color-light-shade);
 }
 
 .RampInputSelect--root {
@@ -86,39 +109,51 @@ hr.RampBreak--l {
 
 .RampInputSelect--input {
   padding: 1rem 0.75rem;
-  border: 1px solid var(--color-light-shade);
   border-bottom: 1px solid var(--color-text);
   cursor: pointer;
+  background-color: var(--color-darker-shade);
 }
 
 .RampInputSelect--dropdown-container {
   display: none;
+  display: block;
+  position: absolute;
+  width: 88%;
+  max-width: 700px;
+  margin-top: 0.5rem;
+  max-height: 16rem;
+  overflow: auto;
+  background-color: var(--color-darker-shade);
+  border-bottom: rgb(71, 71, 71);
 }
 
 .RampInputSelect--dropdown-container-opened {
   display: block;
   position: absolute;
-  width: 100%;
+  width: 88%;
   max-width: 700px;
-  border: 1px solid var(--color-darker-shade);
+  background-color: var(--color-darker-shade);
   margin-top: 0.5rem;
   max-height: 16rem;
   overflow: auto;
+  border-bottom: rgb(71, 71, 71);
 }
 
 .RampInputSelect--dropdown-item {
   padding: 1rem 0.75rem;
-  background-color: var(--color-empty-shade);
-  border-bottom: 1px solid var(--color-light-shade);
+  background-color: var(--color-darker-shade);
   cursor: pointer;
+  border-bottom: solid 1px grey;
 }
 
 .RampInputSelect--dropdown-item-highlighted {
-  background-color: var(--color-lighter-shade);
+  font-weight: 600;
+  color: rgb(69, 69, 69);
 }
 
 .RampInputSelect--dropdown-item-selected {
-  font-weight: bold;
+  color: black;
+  font-weight: 600;
 }
 
 .RampInputCheckbox--container {
@@ -154,23 +189,26 @@ hr.RampBreak--l {
 }
 
 .RampButton {
-  border: 1px solid var(--color-light-shade);
-  background-color: var(--color-light-shade);
+  background-color: var(--color-accent);
+  color: var(--color-empty-shade);
   padding: 0.5rem;
   cursor: pointer;
+  margin-top: 20px;
+  border-radius: 10px;
 }
 
 .RampButton:hover {
-  background-color: var(--color-lighter-shade);
+  background-color: var(--color-dark-shade);
+  color: var(--color-empty-shade);
 }
 
 .RampButton:disabled {
-  cursor: not-allowed;
+  cursor: progress;
 }
 
 .RampPane {
   padding: 1rem;
-  border: 1px solid var(--color-light-shade);
+  border-bottom: 1px solid var(--color-lighter-shade);
   display: flex;
   justify-content: space-between;
   align-items: center;
