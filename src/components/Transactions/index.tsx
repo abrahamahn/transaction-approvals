@@ -3,6 +3,7 @@ import { useCustomFetch } from "src/hooks/useCustomFetch";
 import { SetTransactionApprovalParams } from "src/utils/types";
 import { TransactionPanel } from "./TransactionPanel";
 import { SetTransactionApprovalFunction, TransactionsComponent } from "./types";
+import { getTransactionsPaginated } from "src/utils/requests.ts";
 
 export const Transactions: TransactionsComponent = ({ transactions }) => {
   const { fetchWithoutCache, loading } = useCustomFetch();
