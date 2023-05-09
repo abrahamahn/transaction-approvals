@@ -5,8 +5,8 @@ import { useCustomFetch } from "./useCustomFetch";
 
 export function useTransactionsByEmployee(): TransactionsByEmployeeResult {
   const { fetchWithCache, loading } = useCustomFetch();
-  const [transactionsByEmployee, setTransactionsByEmployee] = useState<Transaction[] | null>(null);
-  const [isEndOfList, setIsEndOfList] = useState<boolean>(false);
+  const [ transactionsByEmployee, setTransactionsByEmployee ] = useState<Transaction[] | null>(null);
+  const [ isEndOfList, setIsEndOfList ] = useState<boolean>(false);
 
   const fetchById = useCallback(
     async (employeeId: string) => {
@@ -19,7 +19,7 @@ export function useTransactionsByEmployee(): TransactionsByEmployeeResult {
 
       if (data) {
         setTransactionsByEmployee(data);
-        setIsEndOfList(data.length === 0);
+        setIsEndOfList(data.length === 0); 
       }
     },
     [fetchWithCache]
@@ -27,7 +27,8 @@ export function useTransactionsByEmployee(): TransactionsByEmployeeResult {
 
   const invalidateData = useCallback(() => {
     setTransactionsByEmployee(null);
+    setIsEndOfList(false);
   }, []);
 
-  return { data: transactionsByEmployee, loading, fetchById, invalidateData };
+  return { data: transactionsByEmployee, loading, fetchById, isEndOfList, invalidateData };
 }

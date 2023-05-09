@@ -1,25 +1,25 @@
-import { useCallback, useContext, useState } from "react"
-import { AppContext } from "../utils/context"
+import { useCallback, useContext, useState } from "react";
+import { AppContext } from "../utils/context";
 
 export function useWrappedRequest() {
-  const [loading, setLoading] = useState(false)
-  const { setError } = useContext(AppContext)
+  const [loading, setLoading] = useState(false);
+  const { setError } = useContext(AppContext);
 
   const wrappedRequest = useCallback(
     async <TData extends any = void>(promise: () => Promise<TData>): Promise<TData | null> => {
       try {
-        setLoading(true)
-        const result = await promise()
-        return result
+        setLoading(true);
+        const result = await promise();
+        return result;
       } catch (error) {
-        setError(error as string)
-        return null
+        setError(error as string);
+        return null;
       } finally {
-        setLoading(false)
-      }
+        setLoading(false);
+      };
     },
     [setError]
-  )
+  );
 
-  return { loading, wrappedRequest }
-}
+  return { loading, wrappedRequest };
+};

@@ -1,4 +1,4 @@
-import { Fragment } from "react"
+import { Fragment } from "react";
 
 export function Instructions() {
   return (
@@ -13,5 +13,6 @@ export function Instructions() {
         transactions by employee.
       </p>
     </Fragment>
-  )
+  );
 }
+;

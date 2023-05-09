@@ -12,7 +12,6 @@ export function App() {
   const { data: employees, ...employeeUtils } = useEmployees();
   const { data: paginatedTransactions, ...paginatedTransactionsUtils } = usePaginatedTransactions();
   const { data: transactionsByEmployee, ...transactionsByEmployeeUtils } = useTransactionsByEmployee();
-  const [isEndOfList, setIsEndOfList] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [selectedEmployee, setSelectedEmployee] = useState<Employee | null>(null);
 
