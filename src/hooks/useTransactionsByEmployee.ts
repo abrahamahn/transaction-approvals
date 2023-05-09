@@ -31,4 +31,4 @@ export function useTransactionsByEmployee(): TransactionsByEmployeeResult {
   }, []);
 
   return { data: transactionsByEmployee, loading, fetchById, isEndOfList, invalidateData };
-}
+};

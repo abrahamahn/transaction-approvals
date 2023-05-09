@@ -32,6 +32,9 @@ export function App() {
 
   const loadTransactionsByEmployee = useCallback(
     async (employeeId: string) => {
+      if (!employees) {
+        return;
+      }
       if (employeeId === EMPTY_EMPLOYEE.id) {
         setSelectedEmployee(null);
         await loadAllTransactions();
@@ -43,6 +46,7 @@ export function App() {
     },
     [paginatedTransactionsUtils, transactionsByEmployeeUtils, loadAllTransactions, employees]
   );
+
 
   useEffect(() => {
     if (employees === null && !employeeUtils.loading) {
