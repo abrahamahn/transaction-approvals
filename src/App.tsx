@@ -14,6 +14,7 @@ export function App() {
   const { data: transactionsByEmployee, ...transactionsByEmployeeUtils } = useTransactionsByEmployee();
   const [isEndOfList, setIsEndOfList] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [selectedEmployee, setSelectedEmployee] = useState<Employee | null>(null);
 
   const transactions = useMemo(
     () => paginatedTransactions?.data ?? transactionsByEmployee ?? null,
@@ -33,13 +34,15 @@ export function App() {
   const loadTransactionsByEmployee = useCallback(
     async (employeeId: string) => {
       if (employeeId === EMPTY_EMPLOYEE.id) {
+        setSelectedEmployee(null);
         await loadAllTransactions();
       } else {
+        setSelectedEmployee(employees.find((employee) => employee.id === employeeId) || null);
         paginatedTransactionsUtils.invalidateData();
         await transactionsByEmployeeUtils.fetchById(employeeId);
       }
     },
-    [paginatedTransactionsUtils, transactionsByEmployeeUtils, loadAllTransactions]
+    [paginatedTransactionsUtils, transactionsByEmployeeUtils, loadAllTransactions, employees]
   );
 
   useEffect(() => {
@@ -84,7 +87,11 @@ export function App() {
               className="RampButton"
               disabled={paginatedTransactionsUtils.loading}
               onClick={async () => {
-                await loadAllTransactions()
+                if (selectedEmployee) {
+                  await loadTransactionsByEmployee(selectedEmployee.id);
+                } else {
+                  await loadAllTransactions();
+                }
               }}
             >
               View More
