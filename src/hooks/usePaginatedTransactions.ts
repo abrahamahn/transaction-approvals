@@ -4,6 +4,7 @@ import { PaginatedTransactionsResult } from "./types";
 import { useCustomFetch } from "./useCustomFetch";
 
 export function usePaginatedTransactions(): PaginatedTransactionsResult {
+  const [isEndOfList, setIsEndOfList] = useState<boolean>(false);
   const { fetchWithCache, loading } = useCustomFetch();
   const [paginatedTransactions, setPaginatedTransactions] = useState<PaginatedResponse<Transaction[]> | null>(null);
 
@@ -15,19 +16,23 @@ export function usePaginatedTransactions(): PaginatedTransactionsResult {
       }
     );
 
-    if (response && paginatedTransactions) {
-      setPaginatedTransactions({
-        data: [...paginatedTransactions.data, ...response.data],
-        nextPage: response.nextPage,
-      });
-    } else {
-      setPaginatedTransactions(response);
-    };
+    if (response) {
+      if (paginatedTransactions) {
+        setPaginatedTransactions({
+          data: [...paginatedTransactions.data, ...response.data],
+          nextPage: response.nextPage,
+        });
+      } else {
+        setPaginatedTransactions(response);
+      }
+      
+      setIsEndOfList(response.nextPage === null);
+    }
   }, [fetchWithCache, paginatedTransactions]);
 
   const invalidateData = useCallback(() => {
     setPaginatedTransactions(null);
   }, []);
 
-  return { data: paginatedTransactions, loading, fetchAll, invalidateData };
+  return { data: paginatedTransactions, loading, fetchAll, invalidateData, isEndOfList };
 }

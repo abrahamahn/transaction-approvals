@@ -12,8 +12,8 @@ export function App() {
   const { data: employees, ...employeeUtils } = useEmployees();
   const { data: paginatedTransactions, ...paginatedTransactionsUtils } = usePaginatedTransactions();
   const { data: transactionsByEmployee, ...transactionsByEmployeeUtils } = useTransactionsByEmployee();
+  const [isEndOfList, setIsEndOfList] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [showViewMore, setShowViewMore] = useState(false);
 
   const transactions = useMemo(
     () => paginatedTransactions?.data ?? transactionsByEmployee ?? null,
@@ -34,11 +34,9 @@ export function App() {
     async (employeeId: string) => {
       if (employeeId === EMPTY_EMPLOYEE.id) {
         await loadAllTransactions();
-        setShowViewMore(true);
       } else {
         paginatedTransactionsUtils.invalidateData();
         await transactionsByEmployeeUtils.fetchById(employeeId);
-        setShowViewMore(false);
       }
     },
     [paginatedTransactionsUtils, transactionsByEmployeeUtils, loadAllTransactions]
@@ -50,14 +48,6 @@ export function App() {
     };
   }, [employeeUtils.loading, employees, loadAllTransactions]);
 
-  useEffect(() => {
-    if (transactions && transactions.length > 0) {
-      setShowViewMore(true);
-    } else {
-      setShowViewMore(false);
-    }
-  }, [transactions]);
-  
   return (
     <Fragment>
       <main className="MainContainer">
@@ -89,7 +79,7 @@ export function App() {
         <div className="RampGrid">
           <Transactions transactions={transactions} />
 
-          {showViewMore && (
+          {transactions !== null && !paginatedTransactionsUtils.isEndOfList && (
             <button
               className="RampButton"
               disabled={paginatedTransactionsUtils.loading}
