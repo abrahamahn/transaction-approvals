@@ -16,10 +16,26 @@ export function App() {
   const [selectedEmployee, setSelectedEmployee] = useState<Employee | null>(null);
   const [isEmployeesLoading, setIsEmployeesLoading] = useState(false);
   const [isTransactionsLoading, setIsTransactionsLoading] = useState(false);
-  
-  const transactions = useMemo(
-    () => paginatedTransactions?.data ?? transactionsByEmployee ?? null,
-    [paginatedTransactions, transactionsByEmployee]
+  const [transactionApprovalState, setTransactionApprovalState] = useState<Record<string, boolean>>({});
+
+  const transactions = useMemo(() => {
+    const fetchedTransactions = paginatedTransactions?.data ?? transactionsByEmployee ?? null;
+    if (!fetchedTransactions) return null;
+
+    return fetchedTransactions.map((transaction) => {
+      if (transaction.id in transactionApprovalState) {
+        return { ...transaction, approved: transactionApprovalState[transaction.id] };
+      }
+      return transaction;
+    });
+  }, [paginatedTransactions, transactionsByEmployee, transactionApprovalState]);
+
+
+  const handleTransactionApprovalChange = useCallback(
+    (transactionId: string, newValue: boolean) => {
+      setTransactionApprovalState((prev) => ({ ...prev, [transactionId]: newValue }));
+    },
+    []
   );
 
   const loadAllTransactions = useCallback(async () => {
@@ -91,7 +107,7 @@ export function App() {
         <div className="RampBreak--l" />
 
         <div className="RampGrid">
-          <Transactions transactions={transactions} />
+          <Transactions transactions={transactions} onTransactionApprovalChange={handleTransactionApprovalChange} />
 
           {transactions !== null && (
             (selectedEmployee === null && !paginatedTransactionsUtils.isEndOfList) ||

@@ -47,7 +47,7 @@ a {
   border-radius: 10px;
 }
 
-.RampText {
+.RampText--d {
   color: var(--color-darker-shade);
   font-size: 16px;
   line-height: 1.3;
