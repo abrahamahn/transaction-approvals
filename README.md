@@ -1,6 +1,6 @@
 # Project Title: Employee Transaction Management
 
-`![screenshot](public/images/screenshot.jpg)`
+![screenshot](public/images/screenshot.jpg)
 
 ## Description
 
