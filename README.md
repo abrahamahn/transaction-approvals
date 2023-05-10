@@ -1,5 +1,7 @@
 # Project Title: Employee Transaction Management
 
+`![screenshot](public/images/screenshot.jpg)`
+
 ## Description
 
 This project is a web application built using React that allows users to manage employee transactions. Users can view, filter, and approve or disapprove transactions for individual employees or all employees. The application fetches employee and transaction data from a custom API and provides a user-friendly interface for interacting with the data.
